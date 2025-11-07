@@ -1,0 +1,97 @@
+For the following schema
+Sailors (sid, sname, age, rating)
+Boats   (bid, bname, bcolor)
+Reserves(sid, bid, rdate)
+write the following set operations
+1) Find the sailors name who have reserved a red boat or a green boat.
+2) Find the sailors name who have reserved a red boat and a green boat.
+3) Find the sailors name who have reserved a red boat but not a green boat.
+
+Step 1: Schema Creation
+CREATE TABLE Sailors (  sid INT PRIMARY KEY,  sname VARCHAR(50),  age INT,  rating INT);
+CREATE TABLE Boats (  bid INT PRIMARY KEY,  bname VARCHAR(50),  bcolor VARCHAR(20));
+CREATE TABLE Reserves (  sid INT,  bid INT,  rdate DATE,  FOREIGN KEY (sid) REFERENCES Sailors(sid),  FOREIGN KEY (bid) REFERENCES Boats(bid));
+
+ Step 2: Sample Data Insertion
+-- Sailors
+INSERT INTO Sailors VALUES
+(1, 'Ravi', 25, 7),
+(2, 'Tanvi', 22, 8),
+(3, 'Amit', 30, 6),
+(4, 'Sneha', 28, 9);
+
+-- Boats
+INSERT INTO Boats VALUES
+(101, 'Titanic', 'red'),
+(102, 'Poseidon', 'green'),
+(103, 'Neptune', 'blue'),
+(104, 'Odyssey', 'red'),
+(105, 'Aurora', 'green');
+
+-- Reserves
+INSERT INTO Reserves VALUES
+(1, 101, '2023-10-01'),
+(1, 102, '2023-10-02'),
+(2, 104, '2023-10-03'),
+(3, 102, '2023-10-04'),
+(4, 103, '2023-10-05'),
+(4, 105, '2023-10-06');
+
+Query 1: Sailors who reserved a red boat OR a green boat
+SELECT DISTINCT S.sname
+FROM Sailors S
+JOIN Reserves R ON S.sid = R.sid
+JOIN Boats B ON R.bid = B.bid
+WHERE B.bcolor = 'red' OR B.bcolor = 'green';
+
+
+Output:
+sname
+------
+Ravi
+Tanvi
+Amit
+Sneha
+
+Query 2: Sailors who reserved BOTH a red boat AND a green boat
+SELECT S.sname
+FROM Sailors S
+WHERE S.sid IN (
+  SELECT R1.sid
+  FROM Reserves R1
+  JOIN Boats B1 ON R1.bid = B1.bid
+  WHERE B1.bcolor = 'red'
+)
+AND S.sid IN (
+  SELECT R2.sid
+  FROM Reserves R2
+  JOIN Boats B2 ON R2.bid = B2.bid
+  WHERE B2.bcolor = 'green'
+);
+ Output:
+sname
+------
+Ravi
+
+Query 3: Sailors who reserved a red boat BUT NOT a green boat
+SELECT S.sname
+FROM Sailors S
+WHERE S.sid IN (
+  SELECT R1.sid
+  FROM Reserves R1
+  JOIN Boats B1 ON R1.bid = B1.bid
+  WHERE B1.bcolor = 'red'
+)
+AND S.sid NOT IN (
+  SELECT R2.sid
+  FROM Reserves R2
+  JOIN Boats B2 ON R2.bid = B2.bid
+  WHERE B2.bcolor = 'green'
+);
+
+ Output:
+sname
+------
+Tanvi
+
+
