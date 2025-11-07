@@ -1,0 +1,52 @@
+) i) Implement DML commands for the following schema
+Students (StudentID, StudentName, Major)
+ii) creating and querying views
+
+1)Schema Definition
+CREATE TABLE Students (
+  StudentID INT PRIMARY KEY,
+  StudentName VARCHAR(50),
+  Major VARCHAR(50)
+);
+
+ i) DML Commands (Data Manipulation Language)
+🔹 1. INSERT – Add new student records
+INSERT INTO Students VALUES
+(101, 'Tanvi', 'Computer Science'),
+(102, 'Ravi', 'Mathematics'),
+(103, 'Sneha', 'Physics'),
+(104, 'Amit', 'Biology');
+
+ 2. UPDATE – Modify a student’s major
+UPDATE Students
+SET Major = 'Data Science'
+WHERE StudentID = 102;
+
+3. DELETE – Remove a student record
+DELETE FROM Students
+WHERE StudentID = 104;
+
+ 4. SELECT – View all student data
+SELECT * FROM Students;
+
+2) 1. Create a view of students in science majors
+CREATE VIEW ScienceStudents AS
+SELECT StudentID, StudentName
+FROM Students
+WHERE Major IN ('Computer Science', 'Physics', 'Biology');
+
+ 2. Query the view
+SELECT * FROM ScienceStudents;
+
+ 3. Update underlying table via view (if allowed)
+UPDATE ScienceStudents
+SET StudentName = 'Tanvi R.'
+WHERE StudentID = 101;
+
+
+
+
+
+
+
+
