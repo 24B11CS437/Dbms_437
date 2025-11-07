@@ -1,0 +1,14 @@
+For the following schema
+Sailors (sid, sname, age, rating)
+Boats   (bid, bname, bcolor)
+Reserves(sid, bid, rdate)
+write the following nested queries
+1)	Find the names of sailors who have reserved boat no 103 using IN operator.
+2)	Find the names of sailors who have not reserved boat no 103 using NOT IN operator.
+3)	Find the sailor id with the highest rating.
+4)	Find the sailor id whose rating is better than some sailor called andy
+
+1)SELECT sname FROM Sailors WHERE sid IN (  SELECT sid FROM Reserves  WHERE bid = 103);
+2)SELECT sname FROM Sailors WHERE sid NOT IN (  SELECT sid  FROM Reserves  WHERE bid = 103);
+3)SELECT sid FROM Sailors WHERE rating = (  SELECT MAX(rating)  FROM Sailors);
+4)SELECT sid FROM Sailors WHERE rating > ANY (  SELECT rating  FROM Sailors  WHERE sname = 'Andy');
