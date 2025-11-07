@@ -1,0 +1,31 @@
+) write SQL queries using Aggregate operators (MIN, MAX, SUM, COUNT, AVG) for the following schema
+Sailors (sid, sname, age, rating)
+i) find the average age of sailors
+ii) find the minimum age of sailors
+iii) find the maximum age of sailors
+iv) find the number of sailors
+v) find the total rating of all sailors
+vi) Write about DCL commands
+
+i)Find the average age of sailors
+SELECT AVG(age) AS average_age FROM Sailors;
+
+ii) Find the minimum age of sailors
+SELECT MIN(age) AS minimum_age FROM Sailors;
+
+iii) Find the maximum age of sailors
+SELECT MAX(age) AS maximum_age FROM Sailors;
+
+iv) Find the number of sailors
+SELECT COUNT(*) AS total_sailors FROM Sailors;
+
+v) Find the total rating of all sailors
+SELECT SUM(rating) AS total_rating FROM Sailors;
+
+vi)
+GRANT SELECT, INSERT ON Sailors TO user1;
+REVOKE INSERT ON Sailors FROM user1;
+
+
+
+
